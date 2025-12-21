@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #FF6B6B;
+  --color-brand-hover: #FF5252;
+  --color-gray-dark: #a3a3a3;
+  --color-gray-light: #d4d4d4;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Global Styles */
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: black;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
