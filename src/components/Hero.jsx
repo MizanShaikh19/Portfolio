@@ -14,19 +14,19 @@ const Hero = () => {
             <GradientBackground variant="hero" className="absolute inset-0 z-0" />
 
             {/* Content Container */}
-            <div className={`relative z-10 max-w-7xl mx-auto w-full px-6 py-20 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="max-w-4xl pt-20">
+            <div className={`relative z-10 max-w-7xl mx-auto w-full px-6 py-12 md:py-20 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-4xl pt-12 md:pt-20">
 
                     {/* Logo/Brand */}
                     <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                        <h3 className="text-2xl font-bold tracking-widest">
+                        <h3 className="text-xl md:text-2xl font-bold tracking-widest">
                             <span className="text-white">MIZAN</span>
                             <span className="gradient-text">.IO</span>
                         </h3>
                     </div>
 
                     {/* Main Headline with Gradient Text */}
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 leading-[0.95] tracking-tight text-left animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <h1 className="text-4xl md:text-8xl lg:text-9xl font-bold mb-6 leading-[0.95] tracking-tight text-left animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         <span className="text-white">The New Standard</span>
                         <br />
                         <span className="text-white">in </span>
@@ -34,7 +34,7 @@ const Hero = () => {
                     </h1>
 
                     {/* Subheadline */}
-                    <h2 className="text-xl md:text-2xl text-gray-300 mb-12 tracking-wide text-left max-w-4xl leading-relaxed animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                    <h2 className="text-lg md:text-2xl text-gray-300 mb-10 md:mb-12 tracking-wide text-left max-w-4xl leading-relaxed animate-fade-in" style={{ animationDelay: '0.6s' }}>
                         I'm Mizan Shaikh, a web developer specializing in fast, modern websites for small businesses.
                         I use <span className="text-white font-medium">AI-assisted development tools</span> to build sites in days instead of weeks —
                         without compromising quality. My approach is simple: understand your needs, build it fast, deliver it clean.

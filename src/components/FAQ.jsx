@@ -69,8 +69,8 @@ const FAQ = () => {
     ];
 
     return (
-        <section id="faq" className="relative py-32 px-6 bg-black">
-            <MeshBackground className="py-20">
+        <section id="faq" className="relative py-16 md:py-32 px-6 bg-black">
+            <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-4xl mx-auto">
                     <div className="mb-20 text-center">
                         <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">

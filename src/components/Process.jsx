@@ -11,7 +11,7 @@ const ProcessStep = ({ step, index, isLast }) => {
 
             <div className="flex flex-col items-center text-center">
                 <div className="relative mb-8">
-                    <div className="w-24 h-24 rounded-2xl glass-strong border-2 border-white/5 flex items-center justify-center text-4xl group-hover:scale-110 group-hover:border-pink/50 transition-all duration-500 relative z-10"
+                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl glass-strong border-2 border-white/5 flex items-center justify-center text-2xl md:text-4xl group-hover:scale-110 group-hover:border-pink/50 transition-all duration-500 relative z-10"
                         style={{
                             background: 'linear-gradient(black, black) padding-box, linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3), rgba(249, 115, 22, 0.3)) border-box'
                         }}>
@@ -65,10 +65,10 @@ const Process = () => {
     ];
 
     return (
-        <section id="process" className="relative py-32 px-6 bg-black">
-            <MeshBackground className="py-20">
+        <section id="process" className="relative py-16 md:py-32 px-6 bg-black overflow-hidden">
+            <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-7xl mx-auto">
-                    <div className="mb-24 text-center">
+                    <div className="mb-12 md:mb-24 text-center">
                         <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
                             The <span className="gradient-text">Workflow</span>
                         </h2>
@@ -77,18 +77,20 @@ const Process = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-16 lg:gap-8">
+                    {/* Mobile: Horizontal Scroll | Desktop: Grid */}
+                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-3 lg:grid-cols-5 md:gap-8 no-scrollbar">
                         {steps.map((step, index) => (
-                            <ProcessStep
-                                key={index}
-                                step={step}
-                                index={index}
-                                isLast={index === steps.length - 1}
-                            />
+                            <div key={index} className="min-w-[70vw] md:min-w-0 snap-center">
+                                <ProcessStep
+                                    step={step}
+                                    index={index}
+                                    isLast={index === steps.length - 1}
+                                />
+                            </div>
                         ))}
                     </div>
 
-                    <div className="mt-24 p-1 rounded-3xl bg-gradient-to-r from-purple/20 via-pink/20 to-orange/20 max-w-4xl mx-auto">
+                    <div className="mt-12 md:mt-24 p-1 rounded-3xl bg-gradient-to-r from-purple/20 via-pink/20 to-orange/20 max-w-4xl mx-auto">
                         <div className="bg-black/80 backdrop-blur-xl p-8 md:p-12 rounded-[calc(1.5rem-2px)] text-center">
                             <h3 className="text-2xl font-bold text-white mb-4">Ready to start?</h3>
                             <p className="text-gray-400 mb-8 font-light">Payment: 50% upfront to start, 50% upon completion.</p>
