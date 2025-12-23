@@ -3,11 +3,12 @@ import React from 'react';
 const MeshBackground = ({ children, className = "" }) => {
     return (
         <div className={`relative overflow-hidden bg-black ${className}`}>
-            {/* Animated Mesh Gradients */}
+            {/* Animated Mesh Gradients with Purple-Pink-Orange */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-brand/10 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-brand/5 rounded-full blur-[120px] animate-pulse delay-700" />
-                <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-white/5 rounded-full blur-[100px]" />
+                <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-purple/20 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-pink/15 rounded-full blur-[120px] animate-pulse delay-700" />
+                <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-orange/10 rounded-full blur-[100px]" />
+                <div className="absolute bottom-[30%] left-[20%] w-[35%] h-[35%] bg-purple-light/10 rounded-full blur-[90px] animate-pulse delay-1000" />
             </div>
 
             {/* Grid Pattern/Texture Overlay */}

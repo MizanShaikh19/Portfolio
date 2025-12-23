@@ -1,13 +1,17 @@
 import React from 'react';
+import { Linkedin, Instagram, Twitter } from 'lucide-react';
 
 const Footer = () => {
     return (
-        <footer className="bg-black py-20 px-6 border-t border-white/5">
-            <div className="max-w-7xl mx-auto">
+        <footer className="bg-black py-20 px-6 border-t border-white/5 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple/5 rounded-full blur-[120px] pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     <div className="col-span-1 md:col-span-2">
                         <h2 className="text-3xl font-bold text-white mb-6 tracking-tighter">
-                            MIZAN.<span className="text-brand">IO</span>
+                            MIZAN.<span className="gradient-text">IO</span>
                         </h2>
                         <p className="text-gray-dark text-lg max-w-md font-light leading-relaxed">
                             Premium web development for small businesses. Building high-performance, results-driven websites in record time.
@@ -17,24 +21,42 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navigation</h4>
                         <ul className="space-y-4 text-gray-dark">
-                            <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-brand transition-colors">Home</button></li>
-                            <li><button onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })} className="hover:text-brand transition-colors">Work</button></li>
-                            <li><button onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })} className="hover:text-brand transition-colors">Pricing</button></li>
-                            <li><button onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })} className="hover:text-brand transition-colors">About</button></li>
+                            <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-purple transition-colors">Home</button></li>
+                            <li><button onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })} className="hover:text-orange transition-colors">Work</button></li>
+                            <li><button onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })} className="hover:text-pink transition-colors">About</button></li>
+                            <li><button onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })} className="hover:text-orange transition-colors">Contact</button></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Contact</h4>
                         <ul className="space-y-4 text-gray-dark">
-                            <li><a href="mailto:shaikhmizan@gmail.com" className="hover:text-brand transition-colors">Email Me</a></li>
-                            <li><span className="block">Dhanmandi, Dhaka-1205</span></li>
+                            <li><a href="mailto:shaikhmizan120@gmail.com" className="hover:text-pink transition-colors">shaikhmizan120@gmail.com</a></li>
+                            <li><span className="block">Mumbai, Maharashtra, India</span></li>
                             <li className="flex gap-4 pt-4">
-                                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand transition-all duration-300">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg>
+                                <a
+                                    href="https://www.linkedin.com/in/mizan-shaikh-b36607394"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-purple transition-all duration-300"
+                                >
+                                    <Linkedin className="w-5 h-5" />
                                 </a>
-                                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand transition-all duration-300">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+                                <a
+                                    href="https://www.instagram.com/19.mizan"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-pink transition-all duration-300"
+                                >
+                                    <Instagram className="w-5 h-5" />
+                                </a>
+                                <a
+                                    href="https://x.com/mizan__shaikh96"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-orange transition-all duration-300"
+                                >
+                                    <Twitter className="w-5 h-5" />
                                 </a>
                             </li>
                         </ul>
@@ -44,8 +66,8 @@ const Footer = () => {
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-gray-dark text-sm tracking-widest uppercase">
                     <p>&copy; 2025 MIZAN.IO. All rights reserved.</p>
                     <div className="flex gap-8">
-                        <a href="#" className="hover:text-brand transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-brand transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>
