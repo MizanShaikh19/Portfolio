@@ -11,6 +11,11 @@ This file contains the core contact details and social media profiles for Mizan 
 - **Instagram**: [@19.mizan](https://www.instagram.com/19.mizan)
 - **Twitter / X**: [@mizan__shaikh96](https://x.com/mizan__shaikh96)
 
+## 🚀 Live Projects (Portfolios)
+- **Service Booking App**: [View Live](https://service-booking-management-web-app.vercel.app/)
+- **Business Analytics Dashboard**: [View Live](https://internal-analytics-business-insight.vercel.app/)
+- **Mini CRM**: [View Live](https://mini-crm-miz.vercel.app/)
+
 ---
 
 ## 👨‍💻 Quick About
