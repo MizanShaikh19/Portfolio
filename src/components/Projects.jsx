@@ -1,5 +1,6 @@
 import React from 'react';
 import MeshBackground from './MeshBackground';
+import ScrollHint from './ScrollHint';
 
 const ProjectCard = ({ project }) => {
     return (
@@ -133,12 +134,15 @@ const Projects = () => {
                     </div>
 
                     {/* Mobile: Horizontal Scroll | Desktop: Grid */}
-                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 no-scrollbar">
-                        {projects.map((project, index) => (
-                            <div key={index} className="min-w-[85vw] md:min-w-0 snap-center h-full">
-                                <ProjectCard project={project} />
-                            </div>
-                        ))}
+                    <div className="relative">
+                        <ScrollHint />
+                        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 no-scrollbar">
+                            {projects.map((project, index) => (
+                                <div key={index} className="min-w-[85vw] md:min-w-0 snap-center h-full">
+                                    <ProjectCard project={project} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </MeshBackground>
