@@ -1,6 +1,6 @@
 import React from 'react';
 import MeshBackground from './MeshBackground';
-import { Linkedin, Instagram, Twitter } from 'lucide-react';
+import { Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
 
 const Contact = () => {
     return (
@@ -14,14 +14,17 @@ const Contact = () => {
                         Ready to build your internal tools? Email me directly or reach out on social media.
                     </p>
 
-                    <a
-                        href="mailto:shaikhmizan120@gmail.com"
-                        className="inline-block text-3xl md:text-5xl lg:text-6xl font-black text-white hover:text-pink transition-all duration-300 border-b-2 border-white/20 hover:border-pink pb-2 tracking-tighter mb-8"
-                    >
-                        shaikhmizan120@gmail.com
-                    </a>
+                    <div className="mt-16 flex flex-wrap justify-center gap-10">
+                        <a
+                            href="mailto:shaikhmizan120@gmail.com"
+                            className="group flex flex-col items-center gap-2 text-gray-400 hover:text-white transition-all duration-300"
+                        >
+                            <div className="p-4 rounded-full glass border border-white/10 group-hover:border-blue-500/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all">
+                                <Mail className="w-8 h-8 group-hover:text-blue-500" />
+                            </div>
+                            <span className="text-sm font-medium tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
+                        </a>
 
-                    <div className="mt-16 flex justify-center gap-10">
                         <a
                             href="https://www.linkedin.com/in/mizan-shaikh-b36607394?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                             target="_blank"

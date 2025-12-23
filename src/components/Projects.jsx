@@ -132,9 +132,12 @@ const Projects = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {/* Mobile: Horizontal Scroll | Desktop: Grid */}
+                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 no-scrollbar">
                         {projects.map((project, index) => (
-                            <ProjectCard key={index} project={project} />
+                            <div key={index} className="min-w-[85vw] md:min-w-0 snap-center h-full">
+                                <ProjectCard project={project} />
+                            </div>
                         ))}
                     </div>
                 </div>
