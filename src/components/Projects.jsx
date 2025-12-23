@@ -1,6 +1,7 @@
 import React from 'react';
 import MeshBackground from './MeshBackground';
 import ScrollHint from './ScrollHint';
+import Reveal from './Reveal';
 
 const ProjectCard = ({ project }) => {
     return (
@@ -124,25 +125,29 @@ const Projects = () => {
         <section id="projects" className="relative py-16 md:py-24 px-6 bg-black">
             <MeshBackground className="py-20">
                 <div className="max-w-7xl mx-auto">
-                    <div className="mb-20 text-center md:text-left">
-                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                            Practical <span className="gradient-text">Applications</span>
-                        </h2>
-                        <p className="text-gray-dark text-xl max-w-2xl font-light leading-relaxed">
-                            I build internal business tools — bookings, dashboards, and client systems — the kind of premium solutions businesses actually use to scale.
-                        </p>
-                    </div>
+                    <Reveal>
+                        <div className="mb-20 text-center md:text-left">
+                            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                                Practical <span className="gradient-text">Applications</span>
+                            </h2>
+                            <p className="text-gray-dark text-xl max-w-2xl font-light leading-relaxed">
+                                I build internal business tools — bookings, dashboards, and client systems — the kind of premium solutions businesses actually use to scale.
+                            </p>
+                        </div>
+                    </Reveal>
 
                     {/* Mobile: Horizontal Scroll | Desktop: Grid */}
                     <div className="relative">
                         <ScrollHint />
-                        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 no-scrollbar">
-                            {projects.map((project, index) => (
-                                <div key={index} className="min-w-[85vw] md:min-w-0 snap-center h-full">
-                                    <ProjectCard project={project} />
-                                </div>
-                            ))}
-                        </div>
+                        <Reveal delay={0.2}>
+                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 no-scrollbar">
+                                {projects.map((project, index) => (
+                                    <div key={index} className="min-w-[85vw] md:min-w-0 snap-center h-full">
+                                        <ProjectCard project={project} />
+                                    </div>
+                                ))}
+                            </div>
+                        </Reveal>
                     </div>
                 </div>
             </MeshBackground>

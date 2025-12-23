@@ -1,5 +1,6 @@
 import React from 'react';
 import MeshBackground from './MeshBackground';
+import Reveal from './Reveal';
 
 const PricingCard = ({ plan, highlight = false }) => {
     return (
@@ -117,32 +118,38 @@ const Services = () => {
         <section id="services" className="relative py-16 md:py-24 px-6 bg-black overflow-hidden">
             <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-7xl mx-auto">
-                    <div className="mb-12 md:mb-20 text-center">
-                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                            Service <span className="gradient-text">Packages</span>
-                        </h2>
-                        <p className="text-gray-dark text-xl max-w-2xl mx-auto font-light leading-relaxed">
-                            Transparent pricing for premium digital solutions. Pick the plan that fits your business stage.
-                        </p>
-                    </div>
+                    <Reveal>
+                        <div className="mb-12 md:mb-20 text-center">
+                            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                                Service <span className="gradient-text">Packages</span>
+                            </h2>
+                            <p className="text-gray-dark text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                                Transparent pricing for premium digital solutions. Pick the plan that fits your business stage.
+                            </p>
+                        </div>
+                    </Reveal>
 
                     {/* Mobile: Horizontal Scroll | Desktop: Grid */}
-                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-3 md:gap-8 items-center no-scrollbar">
-                        {plans.map((plan, index) => (
-                            <div key={index} className="min-w-[85vw] md:min-w-0 snap-center">
-                                <PricingCard plan={plan} highlight={plan.highlight} />
-                            </div>
-                        ))}
-                    </div>
+                    <Reveal delay={0.2}>
+                        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-3 md:gap-8 items-center no-scrollbar">
+                            {plans.map((plan, index) => (
+                                <div key={index} className="min-w-[85vw] md:min-w-0 snap-center">
+                                    <PricingCard plan={plan} highlight={plan.highlight} />
+                                </div>
+                            ))}
+                        </div>
+                    </Reveal>
 
-                    <div className="mt-12 md:mt-20 glass p-6 md:p-8 rounded-2xl border border-white/5 text-center max-w-4xl mx-auto">
-                        <p className="text-gray-400 italic text-sm md:text-base">
-                            "I use AI-assisted development tools to build sites in days instead of weeks - without compromising quality."
-                        </p>
-                    </div>
+                    <Reveal delay={0.4}>
+                        <div className="mt-12 md:mt-20 glass p-6 md:p-8 rounded-2xl border border-white/5 text-center max-w-4xl mx-auto">
+                            <p className="text-gray-400 italic text-sm md:text-base">
+                                "I use AI-assisted development tools to build sites in days instead of weeks - without compromising quality."
+                            </p>
+                        </div>
+                    </Reveal>
                 </div>
             </MeshBackground>
-        </section>
+        </section >
     );
 };
 
