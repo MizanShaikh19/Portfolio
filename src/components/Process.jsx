@@ -65,7 +65,7 @@ const Process = () => {
     ];
 
     return (
-        <section id="process" className="relative py-16 md:py-32 px-6 bg-black overflow-hidden">
+        <section id="process" className="relative py-16 md:py-24 px-6 bg-black overflow-hidden">
             <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-12 md:mb-24 text-center">

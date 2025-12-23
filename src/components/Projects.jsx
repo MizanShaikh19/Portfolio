@@ -121,7 +121,7 @@ const Projects = () => {
     ];
 
     return (
-        <section id="projects" className="relative py-32 px-6 bg-black">
+        <section id="projects" className="relative py-16 md:py-24 px-6 bg-black">
             <MeshBackground className="py-20">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-20 text-center md:text-left">

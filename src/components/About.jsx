@@ -3,7 +3,7 @@ import MeshBackground from './MeshBackground';
 
 const About = () => {
     return (
-        <section id="about" className="relative py-24 px-6 bg-black">
+        <section id="about" className="relative py-16 md:py-24 px-6 bg-black">
             <MeshBackground className="py-20">
                 <div className="max-w-4xl mx-auto text-center">
 

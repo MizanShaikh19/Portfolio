@@ -114,7 +114,7 @@ const Services = () => {
     ];
 
     return (
-        <section id="services" className="relative py-16 md:py-32 px-6 bg-black overflow-hidden">
+        <section id="services" className="relative py-16 md:py-24 px-6 bg-black overflow-hidden">
             <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-12 md:mb-20 text-center">

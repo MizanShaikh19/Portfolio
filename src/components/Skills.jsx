@@ -18,7 +18,7 @@ const SkillCard = ({ title, items }) => (
 
 const Skills = () => {
     return (
-        <section id="skills" className="relative py-24 px-6 bg-black">
+        <section id="skills" className="relative py-16 md:py-24 px-6 bg-black">
             <MeshBackground className="py-20">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-4xl md:text-5xl font-bold text-white mb-16 tracking-tight">

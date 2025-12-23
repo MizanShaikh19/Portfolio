@@ -69,7 +69,7 @@ const FAQ = () => {
     ];
 
     return (
-        <section id="faq" className="relative py-16 md:py-32 px-6 bg-black">
+        <section id="faq" className="relative py-16 md:py-24 px-6 bg-black">
             <MeshBackground className="py-12 md:py-20">
                 <div className="max-w-4xl mx-auto">
                     <div className="mb-20 text-center">
