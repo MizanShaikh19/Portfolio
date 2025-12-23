@@ -34,10 +34,10 @@ const Hero = () => {
                     </h1>
 
                     {/* Subheadline */}
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-300 mb-12 tracking-wide text-left max-w-3xl leading-snug animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                        Use modern tech to get a 360-degree
-                        <br className="hidden md:block" />
-                        view of your business potential.
+                    <h2 className="text-xl md:text-2xl text-gray-300 mb-12 tracking-wide text-left max-w-4xl leading-relaxed animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                        I'm Mizan Shaikh, a web developer specializing in fast, modern websites for small businesses.
+                        I use <span className="text-white font-medium">AI-assisted development tools</span> to build sites in days instead of weeks —
+                        without compromising quality. My approach is simple: understand your needs, build it fast, deliver it clean.
                     </h2>
 
                     {/* Buttons with Gradient Effects */}
