@@ -8,9 +8,13 @@ import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
+import Navbar from './components/Navbar'
+import BackToTop from './components/BackToTop'
+
 function App() {
   return (
     <main className="min-h-screen bg-black">
+      <Navbar />
       <Hero />
       <Skills />
       <Projects />
@@ -20,6 +24,7 @@ function App() {
       <About />
       <Contact />
       <Footer />
+      <BackToTop />
     </main>
   )
 }

@@ -17,14 +17,6 @@ const Hero = () => {
             <div className={`relative z-10 max-w-7xl mx-auto w-full px-6 py-12 md:py-20 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-4xl pt-12 md:pt-20">
 
-                    {/* Logo/Brand */}
-                    <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                        <h3 className="text-xl md:text-2xl font-bold tracking-widest">
-                            <span className="text-white">MIZAN</span>
-                            <span className="gradient-text">.IO</span>
-                        </h3>
-                    </div>
-
                     {/* Main Headline with Gradient Text */}
                     <h1 className="text-4xl md:text-8xl lg:text-9xl font-bold mb-6 leading-[0.95] tracking-tight text-left animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         <span className="text-white">The New Standard</span>
@@ -59,14 +51,6 @@ const Hero = () => {
 
                 </div>
             </div>
-
-            {/* Floating Navigation */}
-            <nav className="absolute top-0 right-0 p-8 hidden md:flex gap-8 text-sm font-medium text-gray-300 tracking-widest uppercase z-20 animate-fade-in" style={{ animationDelay: '1s' }}>
-                <a href="#skills" className="hover:text-pink transition-colors duration-300">Solutions</a>
-                <a href="#about" className="hover:text-purple transition-colors duration-300">About</a>
-                <a href="#projects" className="hover:text-orange transition-colors duration-300">Programs</a>
-                <a href="#contact" className="hover:text-pink transition-colors duration-300">Contact</a>
-            </nav>
 
             {/* Decorative Gradient Orb */}
             <div className="absolute bottom-10 right-10 w-64 h-64 bg-gradient-to-br from-purple/20 to-pink/20 rounded-full blur-3xl animate-pulse hidden lg:block" />
