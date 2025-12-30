@@ -1,61 +1,104 @@
 import React from 'react';
-import MeshBackground from './MeshBackground';
-import ScrollHint from './ScrollHint';
-import Reveal from './Reveal';
-
-const SkillCard = ({ title, items }) => (
-    <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 p-8 rounded-sm hover:border-brand/30 transition-all duration-300 group">
-        <h3 className="text-white font-bold text-xl mb-6 border-l-4 border-brand pl-4">{title}</h3>
-        <ul className="space-y-3">
-            {items.map((item, index) => (
-                <li key={index} className="text-gray-dark flex items-center gap-3">
-                    <span className="w-1.5 h-1.5 bg-brand/50 rounded-full group-hover:bg-brand transition-colors"></span>
-                    {item}
-                </li>
-            ))}
-        </ul>
-    </div>
-);
+import { motion } from 'framer-motion';
+import { Code2, Database, Layout, Server, Boxes, LineChart } from 'lucide-react';
+import SpotlightCard from './ui/SpotlightCard';
 
 const Skills = () => {
-    return (
-        <section id="skills" className="relative py-16 md:py-24 px-6 bg-black">
-            <MeshBackground className="py-20">
-                <div className="max-w-7xl mx-auto">
-                    <Reveal>
-                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-16 tracking-tight">
-                            Technical <span className="text-brand">Toolbox</span>
-                        </h2>
-                    </Reveal>
+    const techStack = [
+        {
+            icon: Layout,
+            title: "Frontend Core",
+            skills: ["React", "Vue.js", "TypeScript", "Tailwind CSS"],
+            description: "Building pixel-perfect, responsive interfaces with modern frameworks."
+        },
+        {
+            icon: LineChart,
+            title: "Data Analytics",
+            skills: ["Excel", "PowerBI", "SQL", "Python"],
+            description: "Transforming raw data into actionable business insights and dashboards."
+        },
+        {
+            icon: Server,
+            title: "Backend Engine",
+            skills: ["Node.js", "Express", "Supabase", "API Design"],
+            description: "Robust server-side logic and scalable APIs."
+        },
+        {
+            icon: Database,
+            title: "Data Architecture",
+            skills: ["PostgreSQL", "MongoDB", "Redis", "Firebase"],
+            description: "Optimized database schemas for speed and reliability."
+        },
+        {
+            icon: Boxes,
+            title: "Tools & DevOps",
+            skills: ["Git", "Docker", "AWS", "Vercel"],
+            description: "Streamlined CI/CD pipelines and containerization."
+        },
+        {
+            icon: Code2,
+            title: "AI Integration",
+            skills: ["OpenAI API", "HuggingFace", "LangChain"],
+            description: "Leveraging LLMs to build smart, adaptive applications."
+        }
+    ];
 
-                    {/* Mobile: Horizontal Scroll | Desktop: Grid */}
-                    <div className="relative">
-                        <ScrollHint />
-                        <Reveal delay={0.2}>
-                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 no-scrollbar">
-                                <div className="min-w-[85vw] md:min-w-0 snap-center">
-                                    <SkillCard
-                                        title="Frontend Core"
-                                        items={["HTML5 & CSS3 Semantics", "JavaScript (ES6+)", "React.js Component Architecture", "Tailwind CSS Utility First"]}
-                                    />
-                                </div>
-                                <div className="min-w-[85vw] md:min-w-0 snap-center">
-                                    <SkillCard
-                                        title="Backend & Data"
-                                        items={["Supabase (PostgreSQL)", "Authentication & RLS Security", "REST API Integration", "CRUD Operations"]}
-                                    />
-                                </div>
-                                <div className="min-w-[85vw] md:min-w-0 snap-center">
-                                    <SkillCard
-                                        title="Specialized"
-                                        items={["Internal Tools & Dashboards", "Role-Based Access Control", "State Management", "Responsive Business Layouts"]}
-                                    />
-                                </div>
-                            </div>
-                        </Reveal>
-                    </div>
+    return (
+        <section id="skills" className="py-24 bg-black text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(139,92,246,0.1),transparent_70%)]" />
+
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="text-center mb-16">
+                    <motion.h2
+                        className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Toolbox</span>
+                    </motion.h2>
+                    <motion.p
+                        className="text-gray-400 text-xl max-w-2xl mx-auto"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        A comprehensive suite of modern technologies I use to bring ideas to life.
+                    </motion.p>
                 </div>
-            </MeshBackground>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {techStack.map((tech, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                        >
+                            <SpotlightCard className="bg-white/5 border border-white/10 rounded-2xl p-8 h-full">
+                                <div className="relative z-10">
+                                    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                        <tech.icon className="w-6 h-6 text-purple-400 group-hover:text-pink-400 transition-colors" />
+                                    </div>
+
+                                    <h3 className="text-xl font-bold mb-3">{tech.title}</h3>
+                                    <p className="text-gray-400 text-sm mb-6 min-h-[40px]">{tech.description}</p>
+
+                                    <div className="flex flex-wrap gap-2">
+                                        {tech.skills.map((skill, i) => (
+                                            <span key={i} className="px-3 py-1 bg-black/40 border border-white/10 rounded-full text-xs font-medium text-gray-300 group-hover:border-purple-500/30 transition-colors">
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </SpotlightCard>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
         </section>
     );
 };

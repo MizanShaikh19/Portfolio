@@ -1,27 +1,30 @@
 import Hero from './components/Hero'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
-import Services from './components/Services'
-import Process from './components/Process'
+import Pricing from './components/Pricing'
 import FAQ from './components/FAQ'
-import About from './components/About'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 import Navbar from './components/Navbar'
 import BackToTop from './components/BackToTop'
 
+// Advanced UI Components
+import ScrollProgress from './components/ui/ScrollProgress'
+import Preloader from './components/ui/Preloader'
+
 function App() {
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-black md:cursor-auto">
+      <Preloader />
+      <ScrollProgress />
+
       <Navbar />
       <Hero />
       <Skills />
       <Projects />
-      <Services />
-      <Process />
+      <Pricing />
       <FAQ />
-      <About />
       <Contact />
       <Footer />
       <BackToTop />
