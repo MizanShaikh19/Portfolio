@@ -133,7 +133,7 @@ const Hero = () => {
                 }
             }, 100);
             return () => clearInterval(timer1);
-        }, 5800); // Optimized delay for performance-tuned MizanIrisPreloader (~5.3s sequence)
+        }, 7000); // Synced for Holographic Blueprint MizanIrisPreloader (~6.2s sequence + buffer)
 
         return () => clearTimeout(startTimeout);
     }, [hasStarted]);
@@ -198,7 +198,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: hasStarted ? 0.5 : 6.3 }}
+                        transition={{ duration: 0.8, delay: hasStarted ? 0.5 : 7.5 }}
                     >
                         Bridging the gap between powerful web applications and actionable data intelligence to drive business growth.
                     </motion.p>
@@ -208,7 +208,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: hasStarted ? 0.8 : 6.6 }}
+                        transition={{ duration: 0.6, delay: hasStarted ? 0.8 : 7.8 }}
                     >
                         <button
                             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}

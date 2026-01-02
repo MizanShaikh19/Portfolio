@@ -1,67 +1,86 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * FloatingParticles - Memoized for performance to prevent re-renders
+ * TechGrid - Renders a glowing background grid and rotating blueprints
+ * Updated with Nano Banana colors (Purple/Pink/Orange)
  */
-const FloatingParticles = React.memo(({ phase }) => {
-    const particleCount = 20; // Reduced for performance balance
-    const colors = ['#818cf8', '#c084fc', '#fb7185', '#38bdf8', '#f472b6'];
+const TechGrid = () => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+        <div className="absolute inset-0" style={{
+            backgroundImage: `linear-gradient(to right, #ec4899 1px, transparent 1px), linear-gradient(to bottom, #ec4899 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 80%)'
+        }} />
+        <motion.div
+            className="absolute inset-0 border-[1px] border-pink-500/30 rounded-full"
+            style={{ width: '150vh', height: '150vh', left: '50%', top: '50%', x: '-50%', y: '-50%' }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.div
+            className="absolute inset-0 border-[1px] border-orange-500/10 rounded-full scale-75"
+            style={{ width: '150vh', height: '150vh', left: '50%', top: '50%', x: '-50%', y: '-50%' }}
+            animate={{ rotate: -360 }}
+            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        />
+    </div>
+);
 
-    const particles = useMemo(() => Array.from({ length: particleCount }).map((_, i) => ({
+/**
+ * ShardAssembly - Animates random shards flying into a central point
+ */
+const ShardAssembly = ({ phase }) => {
+    const shardCount = 40;
+    const colors = ['#ec4899', '#f97316', '#a855f7']; // Pink, Orange, Purple
+    const shards = useMemo(() => Array.from({ length: shardCount }).map((_, i) => ({
         id: i,
-        size: Math.random() * 12 + 6,
-        x: Math.random() * 100 + "%",
-        duration: Math.random() * 6 + 4,
-        delay: Math.random() * 5,
+        size: Math.random() * 8 + 2,
+        initX: (Math.random() - 0.5) * 200 + "%",
+        initY: (Math.random() - 0.5) * 200 + "%",
         color: colors[i % colors.length]
     })), []);
 
     return (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            {particles.map((p) => (
+        <div className="absolute inset-0 pointer-events-none z-10">
+            {shards.map((s) => (
                 <motion.div
-                    key={p.id}
-                    className="absolute rounded-full"
-                    initial={{ x: p.x, y: "110%", opacity: 0 }}
-                    animate={{
-                        y: ["110%", "-10%"],
-                        opacity: phase === 'expanding' ? 0 : [0, 0.4, 0.4, 0],
+                    key={s.id}
+                    className="absolute rounded-sm"
+                    initial={{ x: s.initX, y: s.initY, opacity: 0, scale: 0 }}
+                    animate={phase === 'expanding' ? { opacity: 0 } : {
+                        x: "0%", y: "0%", opacity: [0, 1, 0], scale: [0, 1, 0.5],
                     }}
                     transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        ease: "linear",
-                        delay: p.delay,
+                        duration: 1.5,
+                        delay: Math.random() * 1,
+                        ease: "circIn"
                     }}
                     style={{
-                        background: `radial-gradient(circle, ${p.color}, transparent)`,
-                        width: p.size + 'px',
-                        height: p.size + 'px',
-                        filter: 'blur(2px)',
-                        willChange: 'transform, opacity'
+                        left: '50%', top: '50%',
+                        width: s.size + 'px', height: s.size + 'px',
+                        background: s.color,
+                        boxShadow: `0 0 10px ${s.color}`
                     }}
                 />
             ))}
         </div>
     );
-});
+};
 
 const MizanIrisPreloader = () => {
     const [isVisible, setIsVisible] = useState(true);
-    const [phase, setPhase] = useState('entering');
+    const [phase, setPhase] = useState('assembly'); // assembly -> scanning -> charge -> expanding
 
     useEffect(() => {
         const sequence = async () => {
-            await new Promise(r => setTimeout(r, 1800)); // Entrance
-            setPhase('waiting');
-            await new Promise(r => setTimeout(r, 1000)); // Read
-            setPhase('fadeout');
-            await new Promise(r => setTimeout(r, 500));  // Disappear text
-            setPhase('falling');
-            await new Promise(r => setTimeout(r, 800));  // Gravity fall
+            await new Promise(r => setTimeout(r, 2500)); // Shards assemble
+            setPhase('scanning');
+            await new Promise(r => setTimeout(r, 1500)); // Laser sweep
+            setPhase('charge');
+            await new Promise(r => setTimeout(r, 1000)); // Vibrate/Glow
             setPhase('expanding');
-            await new Promise(r => setTimeout(r, 1200)); // Iris open
+            await new Promise(r => setTimeout(r, 1500)); // Iris reveal
             setIsVisible(false);
         };
         sequence();
@@ -69,106 +88,120 @@ const MizanIrisPreloader = () => {
 
     if (!isVisible) return null;
 
-    const line1 = "Created by";
-    const line2M = "M";
-    const line2zan = "zan";
-
     return (
         <motion.div
             className="fixed inset-0 z-[100000] bg-[#020202] flex items-center justify-center overflow-hidden select-none"
-            style={{
-                perspective: '1200px',
-                willChange: 'mask-image, -webkit-mask-image'
-            }}
             animate={phase === 'expanding' ? {
-                WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 100%, black 100%)',
-                maskImage: 'radial-gradient(circle at 50% 50%, transparent 100%, black 100%)',
+                WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 150%, black 150%)',
+                maskImage: 'radial-gradient(circle at 50% 50%, transparent 150%, black 150%)',
             } : {
                 WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 0%, black 0%)',
                 maskImage: 'radial-gradient(circle at 50% 50%, transparent 0%, black 0%)',
             }}
             transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
+            style={{ willChange: 'mask-image, -webkit-mask-image' }}
         >
-            {/* Background Layer */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[#020202]" />
-                <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_50%_50%,_#1e1b4b_0%,_transparent_100%)]" />
-                <FloatingParticles phase={phase} />
-            </div>
+            <TechGrid />
+            <ShardAssembly phase={phase} />
 
-            {/* Content Layer */}
-            <div className="relative z-10 flex flex-col items-center justify-center text-white font-bold text-4xl md:text-7xl tracking-tighter space-y-4">
-                <div className="flex items-center" style={{ transformStyle: 'preserve-3d' }}>
-                    {line1.split("").map((char, i) => (
-                        <motion.span
-                            key={`l1-${i}`}
-                            initial={{ opacity: 0, rotateX: -60, scale: 0.8, y: -20 }}
-                            animate={phase === 'fadeout' || phase === 'falling' || phase === 'expanding'
-                                ? { opacity: 0, scale: 0.9, transition: { duration: 0.4 } }
-                                : { opacity: 1, rotateX: 0, scale: 1, y: 0 }
-                            }
-                            transition={{ duration: 0.8, delay: i * 0.04 }}
-                            className="inline-block whitespace-pre drop-shadow-lg"
-                        >
-                            {char}
-                        </motion.span>
-                    ))}
+            <div className="relative z-20 flex flex-col items-center space-y-12">
+
+                {/* 1. CYBER-CORE ICON */}
+                <div className="relative">
+                    <motion.div
+                        animate={phase === 'charge' ? {
+                            scale: [1, 1.05, 1],
+                            x: [0, -1, 1, -1, 0],
+                            filter: 'drop-shadow(0 0 30px #ec4899)'
+                        } : {
+                            filter: 'drop-shadow(0 0 15px #ec4899)'
+                        }}
+                        transition={phase === 'charge' ? { duration: 0.1, repeat: Infinity } : { duration: 1 }}
+                        className="relative"
+                    >
+                        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-pink-400">
+                            {/* Outer Hexagon */}
+                            <motion.path
+                                d="M12 2l9 5v10l-9 5-9-5V7l9-5z"
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{ pathLength: 1, opacity: 1 }}
+                                transition={{ duration: 2, ease: "easeInOut" }}
+                            />
+                            {/* Inner Triangles */}
+                            <motion.path
+                                d="M12 22V12m0 0l9-5m-9 5l-9-5"
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{ pathLength: 1, opacity: 1 }}
+                                transition={{ duration: 1.5, delay: 1, ease: "easeInOut" }}
+                            />
+                            {/* Core Circle */}
+                            <motion.circle
+                                cx="12" cy="12" r="3"
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 2, type: "spring" }}
+                                fill="currentColor"
+                                className="text-pink-500 shadow-lg"
+                            />
+                        </svg>
+                    </motion.div>
+
+                    {/* Scanning Laser Sweep */}
+                    <AnimatePresence>
+                        {phase === 'scanning' && (
+                            <motion.div
+                                initial={{ x: '-150%', opacity: 0 }}
+                                animate={{ x: '150%', opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 1.5, ease: "easeInOut" }}
+                                className="absolute top-[-20%] bottom-[-20%] w-4 bg-gradient-to-r from-transparent via-pink-400 to-transparent blur-sm z-30"
+                            />
+                        )}
+                    </AnimatePresence>
                 </div>
 
-                <div className="flex items-center relative" style={{ transformStyle: 'preserve-3d' }}>
-                    <motion.span
-                        initial={{ opacity: 0, rotateX: -60, scale: 0.8, y: -20 }}
-                        animate={phase === 'fadeout' || phase === 'falling' || phase === 'expanding'
-                            ? { opacity: 0 }
-                            : { opacity: 1, rotateX: 0, scale: 1, y: 0 }
-                        }
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="inline-block"
+                {/* 2. TEXT REVEAL */}
+                <div className="flex flex-col items-center">
+                    <motion.div
+                        initial={{ opacity: 0, tracking: '1em' }}
+                        animate={{ opacity: 1, tracking: '0.4em' }}
+                        transition={{ duration: 2 }}
+                        className="text-pink-300/60 text-xs uppercase font-mono mb-2"
                     >
-                        {line2M}
-                    </motion.span>
+                        Initializing System
+                    </motion.div>
 
-                    <div className="relative flex items-center justify-center mx-[0.1em] min-w-[0.35em] h-[1em]">
-                        <motion.span
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={
-                                phase === 'falling' ? { y: '50vh', opacity: 1, scale: 1.2 } :
-                                    phase === 'expanding' ? { scale: 0, opacity: 0 } :
-                                        { opacity: 1, scale: 1, y: 0 }
-                            }
-                            transition={{
-                                duration: phase === 'falling' ? 0.8 : 0.6,
-                                delay: phase === 'falling' ? 0 : 0.7,
-                                ease: phase === 'falling' ? [0.6, 0.01, 0.5, 1] : "easeOut"
-                            }}
-                            className="absolute top-[0.12em] w-[0.15em] h-[0.15em] bg-white rounded-full z-20 shadow-[0_0_20px_#a855f7]"
-                            style={{ willChange: 'transform' }}
-                        />
-                        <motion.span
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={phase === 'fadeout' || phase === 'falling' || phase === 'expanding'
-                                ? { opacity: 0 }
-                                : { opacity: 1, y: 0 }
-                            }
-                            transition={{ duration: 0.8, delay: 0.7 }}
-                            className="absolute bottom-0 h-[0.62em] w-[0.13em] bg-white rounded-sm"
-                        />
+                    <div className="relative overflow-hidden px-4">
+                        <motion.div
+                            initial={{ y: '100%' }}
+                            animate={{ y: '0%' }}
+                            transition={{ duration: 0.8, delay: 1.5, ease: "circOut" }}
+                            className="text-white text-5xl md:text-7xl font-black tracking-tighter italic uppercase"
+                        >
+                            <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-purple-500 bg-clip-text text-transparent">MIZAN</span>
+                        </motion.div>
+
+                        {/* Sweeping Highlight on Text */}
+                        <AnimatePresence>
+                            {phase === 'scanning' && (
+                                <motion.div
+                                    initial={{ x: '-100%' }}
+                                    animate={{ x: '100%' }}
+                                    transition={{ duration: 1.5, ease: "easeInOut" }}
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-10"
+                                />
+                            )}
+                        </AnimatePresence>
                     </div>
 
-                    {line2zan.split("").map((char, i) => (
-                        <motion.span
-                            key={`l2-${i}`}
-                            initial={{ opacity: 0, rotateX: -60, scale: 0.8, y: -20 }}
-                            animate={phase === 'fadeout' || phase === 'falling' || phase === 'expanding'
-                                ? { opacity: 0 }
-                                : { opacity: 1, rotateX: 0, scale: 1, y: 0 }
-                            }
-                            transition={{ duration: 0.8, delay: 0.8 + (i * 0.04) }}
-                            className="inline-block"
-                        >
-                            {char}
-                        </motion.span>
-                    ))}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.4 }}
+                        transition={{ duration: 1, delay: 2.5 }}
+                        className="text-gray-500 text-[10px] mt-4 font-mono uppercase tracking-widest"
+                    >
+                        Created by Mizan
+                    </motion.div>
                 </div>
             </div>
         </motion.div>
