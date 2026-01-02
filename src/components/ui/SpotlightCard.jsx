@@ -26,17 +26,17 @@ const SpotlightCard = ({ children, className = "" }) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`relative overflow-hidden ${className}`}
+            className={`relative overflow-hidden preserve-3d gpu-accelerated ${className}`}
         >
             <div
-                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 gpu-accelerated backface-hidden"
                 style={{
                     opacity,
                     background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(139, 92, 246, 0.15), transparent 40%)`,
                 }}
             />
             <div
-                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 gpu-accelerated backface-hidden"
                 style={{
                     opacity,
                     background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(139, 92, 246, 0.4), transparent 40%)`,
