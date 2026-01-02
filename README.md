@@ -2,6 +2,8 @@
 
 A modern, minimalist portfolio website showcasing practical business web applications. Built with React, Vite, and Tailwind CSS v4.
 
+**Latest Update:** Preloader Stabilization & Aesthetic Polish.
+
 **Live Demo:** [Coming Soon]
 
 ---
