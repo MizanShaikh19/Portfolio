@@ -3,45 +3,38 @@ import { motion } from 'framer-motion';
 import { Code2, Database, Layout, Server, Boxes, LineChart } from 'lucide-react';
 import SpotlightCard from './ui/SpotlightCard';
 
+// Swiper Imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, FreeMode, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/effect-coverflow';
+
+import { skillsData } from '../constants/data';
+
 const Skills = () => {
-    const techStack = [
-        {
-            icon: Layout,
-            title: "Frontend Core",
-            skills: ["React", "Vue.js", "TypeScript", "Tailwind CSS"],
-            description: "Building pixel-perfect, responsive interfaces with modern frameworks."
-        },
-        {
-            icon: LineChart,
-            title: "Data Analytics",
-            skills: ["Excel", "PowerBI", "SQL", "Python"],
-            description: "Transforming raw data into actionable business insights and dashboards."
-        },
-        {
-            icon: Server,
-            title: "Backend Engine",
-            skills: ["Node.js", "Express", "Supabase", "API Design"],
-            description: "Robust server-side logic and scalable APIs."
-        },
-        {
-            icon: Database,
-            title: "Data Architecture",
-            skills: ["PostgreSQL", "MongoDB", "Redis", "Firebase"],
-            description: "Optimized database schemas for speed and reliability."
-        },
-        {
-            icon: Boxes,
-            title: "Tools & DevOps",
-            skills: ["Git", "Docker", "AWS", "Vercel"],
-            description: "Streamlined CI/CD pipelines and containerization."
-        },
-        {
-            icon: Code2,
-            title: "AI Integration",
-            skills: ["OpenAI API", "HuggingFace", "LangChain"],
-            description: "Leveraging LLMs to build smart, adaptive applications."
-        }
-    ];
+    const techStack = skillsData;
+
+    const SkillCard = ({ tech }) => (
+        <SpotlightCard className="bg-white/5 border border-white/10 rounded-2xl p-8 h-full">
+            <div className="relative z-10">
+                <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <tech.icon className="w-6 h-6 text-purple-400 group-hover:text-pink-400 transition-colors" />
+                </div>
+
+                <h3 className="text-xl font-bold mb-3">{tech.title}</h3>
+                <p className="text-gray-400 text-sm mb-6 min-h-[40px]">{tech.description}</p>
+
+                <div className="flex flex-wrap gap-2">
+                    {tech.skills.map((skill, i) => (
+                        <span key={i} className="px-3 py-1 bg-black/40 border border-white/10 rounded-full text-xs font-medium text-gray-300 group-hover:border-purple-500/30 transition-colors">
+                            {skill}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </SpotlightCard>
+    );
 
     return (
         <section id="skills" className="py-24 bg-black text-white relative overflow-hidden">
@@ -68,7 +61,8 @@ const Skills = () => {
                     </motion.p>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Desktop Grid */}
+                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {techStack.map((tech, index) => (
                         <motion.div
                             key={index}
@@ -76,27 +70,41 @@ const Skills = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
+                            className="hover:z-50 relative"
                         >
-                            <SpotlightCard className="bg-white/5 border border-white/10 rounded-2xl p-8 h-full">
-                                <div className="relative z-10">
-                                    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                        <tech.icon className="w-6 h-6 text-purple-400 group-hover:text-pink-400 transition-colors" />
-                                    </div>
-
-                                    <h3 className="text-xl font-bold mb-3">{tech.title}</h3>
-                                    <p className="text-gray-400 text-sm mb-6 min-h-[40px]">{tech.description}</p>
-
-                                    <div className="flex flex-wrap gap-2">
-                                        {tech.skills.map((skill, i) => (
-                                            <span key={i} className="px-3 py-1 bg-black/40 border border-white/10 rounded-full text-xs font-medium text-gray-300 group-hover:border-purple-500/30 transition-colors">
-                                                {skill}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </SpotlightCard>
+                            <SkillCard tech={tech} />
                         </motion.div>
                     ))}
+                </div>
+
+                {/* Mobile Swiper */}
+                <div className="md:hidden">
+                    <Swiper
+                        modules={[FreeMode, Autoplay, EffectCoverflow]}
+                        effect={'coverflow'}
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView={1.5}
+                        loop={true}
+                        coverflowEffect={{
+                            rotate: 35,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 1,
+                            slideShadows: false,
+                        }}
+                        autoplay={{
+                            delay: 2500,
+                            disableOnInteraction: false,
+                        }}
+                        className="pb-12"
+                    >
+                        {techStack.map((tech, index) => (
+                            <SwiperSlide key={index} className="h-auto">
+                                <SkillCard tech={tech} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
         </section>
