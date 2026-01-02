@@ -11,12 +11,12 @@ import BackToTop from './components/BackToTop'
 
 // Advanced UI Components
 import ScrollProgress from './components/ui/ScrollProgress'
-import Preloader from './components/ui/Preloader'
+import MizanIrisPreloader from './components/ui/MizanIrisPreloader'
 
 function App() {
   return (
     <main className="min-h-screen bg-black md:cursor-auto">
-      <Preloader />
+      <MizanIrisPreloader />
       <ScrollProgress />
 
       <Navbar />

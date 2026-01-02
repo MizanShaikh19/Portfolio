@@ -133,7 +133,7 @@ const Hero = () => {
                 }
             }, 100);
             return () => clearInterval(timer1);
-        }, 2800); // Wait for preloader (2.5s) + a small buffer
+        }, 5800); // Optimized delay for performance-tuned MizanIrisPreloader (~5.3s sequence)
 
         return () => clearTimeout(startTimeout);
     }, [hasStarted]);
@@ -198,7 +198,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: hasStarted ? 0.5 : 3.3 }}
+                        transition={{ duration: 0.8, delay: hasStarted ? 0.5 : 6.3 }}
                     >
                         Bridging the gap between powerful web applications and actionable data intelligence to drive business growth.
                     </motion.p>
@@ -208,7 +208,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: hasStarted ? 0.8 : 3.5 }}
+                        transition={{ duration: 0.6, delay: hasStarted ? 0.8 : 6.6 }}
                     >
                         <button
                             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
