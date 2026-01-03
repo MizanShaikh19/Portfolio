@@ -1,209 +1,289 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+// import { generateHSL, getCycleColors } from './utils'; // Replaced with fixed palette
+import { createParticles } from './particlePhysics';
 
-/**
- * TechGrid - Renders a glowing background grid and rotating blueprints
- * Updated with Nano Banana colors (Purple/Pink/Orange)
- */
-const TechGrid = () => (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-        <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(to right, #ec4899 1px, transparent 1px), linear-gradient(to bottom, #ec4899 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-            maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 80%)'
-        }} />
-        <motion.div
-            className="absolute inset-0 border-[1px] border-pink-500/30 rounded-full"
-            style={{ width: '150vh', height: '150vh', left: '50%', top: '50%', x: '-50%', y: '-50%' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-            className="absolute inset-0 border-[1px] border-orange-500/10 rounded-full scale-75"
-            style={{ width: '150vh', height: '150vh', left: '50%', top: '50%', x: '-50%', y: '-50%' }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        />
-    </div>
-);
+// --- THEME UTILS ---
+const THEME_COLORS = [
+    '#c084fc', // Purple-400
+    '#f472b6', // Pink-400
+    '#fb923c'  // Orange-400
+];
 
-/**
- * ShardAssembly - Animates random shards flying into a central point
- */
-const ShardAssembly = ({ phase }) => {
-    const shardCount = 40;
-    const colors = ['#ec4899', '#f97316', '#a855f7']; // Pink, Orange, Purple
-    const shards = useMemo(() => Array.from({ length: shardCount }).map((_, i) => ({
-        id: i,
-        size: Math.random() * 8 + 2,
-        initX: (Math.random() - 0.5) * 200 + "%",
-        initY: (Math.random() - 0.5) * 200 + "%",
-        color: colors[i % colors.length]
-    })), []);
+const getThemeColor = (hue) => {
+    // hue serves as a time-based index now
+    const index = Math.floor(hue / 60) % THEME_COLORS.length;
+    return THEME_COLORS[index];
+};
 
+const GridBackground = ({ mousePos }) => {
     return (
-        <div className="absolute inset-0 pointer-events-none z-10">
-            {shards.map((s) => (
-                <motion.div
-                    key={s.id}
-                    className="absolute rounded-sm"
-                    initial={{ x: s.initX, y: s.initY, opacity: 0, scale: 0 }}
-                    animate={phase === 'expanding' ? { opacity: 0 } : {
-                        x: "0%", y: "0%", opacity: [0, 1, 0], scale: [0, 1, 0.5],
-                    }}
-                    transition={{
-                        duration: 1.5,
-                        delay: Math.random() * 1,
-                        ease: "circIn"
-                    }}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            {/* Base Gradient - Matches Hero #0a0a0a */}
+            <div className="absolute inset-0 bg-[#0a0a0a]" />
+
+            <div
+                className="absolute inset-[-50%] w-[200%] h-[200%]"
+                style={{
+                    transform: `perspective(1000px) rotateX(60deg) translateY(-100px) translateZ(-200px)`,
+                    transformOrigin: '50% 0%',
+                }}
+            >
+                <div
+                    className="absolute inset-0"
                     style={{
-                        left: '50%', top: '50%',
-                        width: s.size + 'px', height: s.size + 'px',
-                        background: s.color,
-                        boxShadow: `0 0 10px ${s.color}`
+                        backgroundImage: `linear-gradient(to right, #c084fc 1px, transparent 1px), linear-gradient(to bottom, #c084fc 1px, transparent 1px)`,
+                        backgroundSize: '60px 60px',
+                        maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
+                        opacity: 0.15,
                     }}
                 />
-            ))}
+            </div>
+            <motion.div
+                className="absolute inset-0"
+                style={{ opacity: 0.1 }}
+                initial={{ opacity: 0.1 }}
+                animate={{
+                    background: `radial-gradient(circle at ${50 + mousePos.x * 10}% ${50 + mousePos.y * 10}%, #f472b6, transparent 50%)`,
+                    opacity: 0.1
+                }}
+                transition={{ duration: 0 }}
+            />
         </div>
     );
 };
 
-const MizanIrisPreloader = () => {
-    const [isVisible, setIsVisible] = useState(true);
-    const [phase, setPhase] = useState('assembly'); // assembly -> scanning -> charge -> expanding
-
-    useEffect(() => {
-        const sequence = async () => {
-            await new Promise(r => setTimeout(r, 2500)); // Shards assemble
-            setPhase('scanning');
-            await new Promise(r => setTimeout(r, 1500)); // Laser sweep
-            setPhase('charge');
-            await new Promise(r => setTimeout(r, 1000)); // Vibrate/Glow
-            setPhase('expanding');
-            await new Promise(r => setTimeout(r, 1500)); // Iris reveal
-            setIsVisible(false);
-        };
-        sequence();
-    }, []);
-
-    if (!isVisible) return null;
+const HexagonLogo = ({ phase, mousePos }) => {
+    const tiltStyle = { rotateX: mousePos.y * 20, rotateY: mousePos.x * 20 };
+    // Cycle through theme colors based on phase or time? Let's use Purple as base
+    const color = '#c084fc';
 
     return (
         <motion.div
-            className="fixed inset-0 z-[100000] bg-[#020202] flex items-center justify-center overflow-hidden select-none"
-            animate={phase === 'expanding' ? {
-                WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 150%, black 150%)',
-                maskImage: 'radial-gradient(circle at 50% 50%, transparent 150%, black 150%)',
-            } : {
-                WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 0%, black 0%)',
-                maskImage: 'radial-gradient(circle at 50% 50%, transparent 0%, black 0%)',
-            }}
-            transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-            style={{ willChange: 'mask-image, -webkit-mask-image' }}
+            className="relative z-50 w-[240px] h-[240px] flex items-center justify-center translate-z-0"
+            style={{ perspective: 1000, transformStyle: 'preserve-3d' }}
+            animate={phase >= 4 ? {
+                x: [0, -2, 2, -2, 0], y: [0, 2, -2, 2, 0],
+                transition: { repeat: Infinity, duration: 0.1 }
+            } : {}}
         >
-            <TechGrid />
-            <ShardAssembly phase={phase} />
+            <motion.div
+                className="w-full h-full flex items-center justify-center p-8"
+                style={{ ...tiltStyle, transformStyle: 'preserve-3d' }}
+                animate={{ rotateX: tiltStyle.rotateX, rotateY: tiltStyle.rotateY }}
+                transition={{ type: 'spring', stiffness: 50, damping: 20 }}
+            >
+                <svg width="200" height="200" viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="overflow-visible" style={{ filter: `drop-shadow(0 0 10px ${color})` }}>
+                    <motion.path
+                        d="M25 6.7 L75 6.7 L100 50 L75 93.3 L25 93.3 L0 50 Z"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={phase >= 2 ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+                        transition={{ duration: 1.5, ease: "easeInOut" }}
+                    />
+                    <motion.path d="M75 6.7 Q 60 40 50 50" initial={{ pathLength: 0 }} animate={phase >= 2 ? { pathLength: 1 } : { pathLength: 0 }} transition={{ duration: 1.2, delay: 0.5 }} stroke="#f472b6" />
+                    <motion.path d="M25 93.3 Q 40 60 50 50" initial={{ pathLength: 0 }} animate={phase >= 2 ? { pathLength: 1 } : { pathLength: 0 }} transition={{ duration: 1.2, delay: 0.5 }} stroke="#fb923c" />
+                    <motion.path d="M0 50 Q 25 50 50 50" initial={{ pathLength: 0 }} animate={phase >= 2 ? { pathLength: 1 } : { pathLength: 0 }} transition={{ duration: 1.2, delay: 0.5 }} stroke="#c084fc" />
 
-            <div className="relative z-20 flex flex-col items-center space-y-12">
+                    <motion.circle cx="50" cy="50" r="6" fill={color} stroke="none" initial={{ scale: 0 }} animate={phase >= 2 ? { scale: [0, 1.2, 1], opacity: 1 } : { scale: 0 }} transition={{ delay: 1.5, duration: 0.5 }} />
+                    {phase >= 4 && (
+                        <motion.circle cx="50" cy="50" r="6" fill="none" stroke={color} strokeWidth="1" initial={{ scale: 1, opacity: 1 }} animate={{ scale: 4, opacity: 0 }} transition={{ duration: 1, repeat: Infinity }} />
+                    )}
+                </svg>
+            </motion.div>
+        </motion.div>
+    );
+};
 
-                {/* 1. CYBER-CORE ICON */}
-                <div className="relative">
-                    <motion.div
-                        animate={phase === 'charge' ? {
-                            scale: [1, 1.05, 1],
-                            x: [0, -1, 1, -1, 0],
-                            filter: 'drop-shadow(0 0 30px #ec4899)'
-                        } : {
-                            filter: 'drop-shadow(0 0 15px #ec4899)'
-                        }}
-                        transition={phase === 'charge' ? { duration: 0.1, repeat: Infinity } : { duration: 1 }}
-                        className="relative"
-                    >
-                        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-pink-400">
-                            {/* Outer Hexagon */}
-                            <motion.path
-                                d="M12 2l9 5v10l-9 5-9-5V7l9-5z"
-                                initial={{ pathLength: 0, opacity: 0 }}
-                                animate={{ pathLength: 1, opacity: 1 }}
-                                transition={{ duration: 2, ease: "easeInOut" }}
-                            />
-                            {/* Inner Triangles */}
-                            <motion.path
-                                d="M12 22V12m0 0l9-5m-9 5l-9-5"
-                                initial={{ pathLength: 0, opacity: 0 }}
-                                animate={{ pathLength: 1, opacity: 1 }}
-                                transition={{ duration: 1.5, delay: 1, ease: "easeInOut" }}
-                            />
-                            {/* Core Circle */}
-                            <motion.circle
-                                cx="12" cy="12" r="3"
-                                initial={{ scale: 0, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 2, type: "spring" }}
-                                fill="currentColor"
-                                className="text-pink-500 shadow-lg"
-                            />
-                        </svg>
-                    </motion.div>
+const ParticleSystem = ({ width, height, phase }) => {
+    const canvasRef = useRef(null);
+    const particlesRef = useRef([]);
 
-                    {/* Scanning Laser Sweep */}
-                    <AnimatePresence>
-                        {phase === 'scanning' && (
-                            <motion.div
-                                initial={{ x: '-150%', opacity: 0 }}
-                                animate={{ x: '150%', opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 1.5, ease: "easeInOut" }}
-                                className="absolute top-[-20%] bottom-[-20%] w-4 bg-gradient-to-r from-transparent via-pink-400 to-transparent blur-sm z-30"
-                            />
-                        )}
-                    </AnimatePresence>
-                </div>
+    useEffect(() => {
+        if (!width || !height) return;
+        // Use theme colors
+        const colors = THEME_COLORS;
+        particlesRef.current = createParticles(60, width, height, colors);
+    }, [width, height]);
 
-                {/* 2. TEXT REVEAL */}
-                <div className="flex flex-col items-center">
-                    <motion.div
-                        initial={{ opacity: 0, tracking: '1em' }}
-                        animate={{ opacity: 1, tracking: '0.4em' }}
-                        transition={{ duration: 2 }}
-                        className="text-pink-300/60 text-xs uppercase font-mono mb-2"
-                    >
-                        Initializing System
-                    </motion.div>
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrame;
 
-                    <div className="relative overflow-hidden px-4">
-                        <motion.div
-                            initial={{ y: '100%' }}
-                            animate={{ y: '0%' }}
-                            transition={{ duration: 0.8, delay: 1.5, ease: "circOut" }}
-                            className="text-white text-5xl md:text-7xl font-black tracking-tighter italic uppercase"
-                        >
-                            <span className="bg-gradient-to-r from-pink-500 via-orange-500 to-purple-500 bg-clip-text text-transparent">MIZAN</span>
-                        </motion.div>
+        const render = () => {
+            ctx.clearRect(0, 0, width, height);
+            const force = phase === 1 ? 0.3 : (phase > 1 ? 0.8 : 0);
 
-                        {/* Sweeping Highlight on Text */}
-                        <AnimatePresence>
-                            {phase === 'scanning' && (
-                                <motion.div
-                                    initial={{ x: '-100%' }}
-                                    animate={{ x: '100%' }}
-                                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-10"
-                                />
-                            )}
-                        </AnimatePresence>
-                    </div>
+            particlesRef.current.forEach(p => {
+                p.update(width, height, force);
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+            });
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.4 }}
-                        transition={{ duration: 1, delay: 2.5 }}
-                        className="text-gray-500 text-[10px] mt-4 font-mono uppercase tracking-widest"
-                    >
-                        Created by Mizan
-                    </motion.div>
-                </div>
+            if (phase < 5) animationFrame = requestAnimationFrame(render);
+        };
+        render();
+        return () => cancelAnimationFrame(animationFrame);
+    }, [width, height, phase]);
+
+    return <canvas ref={canvasRef} width={width} height={height} className="absolute inset-0 pointer-events-none z-20" />;
+};
+
+
+const LaserScan = ({ phase }) => {
+    return (
+        <AnimatePresence>
+            {phase === 3 && (
+                <motion.div
+                    className="absolute top-0 bottom-0 w-[4px] z-40 bg-white blur-md"
+                    // Gradient matching Hero text
+                    style={{ background: `linear-gradient(to bottom, transparent, #c084fc, #fb923c, transparent)` }}
+                    initial={{ left: '-10%' }}
+                    animate={{ left: '110%' }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.0, ease: "linear" }}
+                />
+            )}
+        </AnimatePresence>
+    );
+};
+
+const TypewriterText = ({ text }) => {
+    const [displayedText, setDisplayedText] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (currentIndex < text.length) {
+            const timeout = setTimeout(() => {
+                setDisplayedText(prev => prev + text[currentIndex]);
+                setCurrentIndex(prev => prev + 1);
+            }, 50); // Speed: 50ms per char
+            return () => clearTimeout(timeout);
+        }
+    }, [currentIndex, text]);
+
+    return (
+        <span className="font-mono tracking-[0.2em] font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            {displayedText}
+            <motion.span
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+                className="inline-block w-[2px] h-[1em] bg-purple-400 ml-1 align-middle"
+            />
+        </span>
+    );
+};
+
+// --- MAIN COMPONENT ---
+
+const MizanIrisPreloader = ({ onComplete }) => {
+    const [phase, setPhase] = useState(0);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const containerRef = useRef(null);
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+    useEffect(() => {
+        setDimensions({ width: window.innerWidth, height: window.innerHeight });
+        const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+            requestAnimationFrame(() => setMousePos({ x, y }));
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
+    useEffect(() => {
+        const runSequence = async () => {
+            // SYNCED TIMING: Total 7000ms
+
+            // Phase 1: Intro (0s -> 1.5s)
+            setPhase(1);
+            await delay(1500);
+
+            // Phase 2: Build (1.5s -> 3.0s)
+            setPhase(2);
+            await delay(1500);
+
+            // Phase 3: Scan (3.0s -> 4.0s)
+            setPhase(3);
+            await delay(1000);
+
+            // Phase 4: Charge (4.0s -> 5.0s)
+            setPhase(4);
+            await delay(1000);
+
+            // Phase 5: Reveal (5.0s -> 7.0s)
+            setPhase(5);
+            await delay(2000); // 2000ms reveal
+
+            if (onComplete) onComplete();
+        };
+
+        runSequence();
+    }, [onComplete]);
+
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    return (
+        <motion.div
+            ref={containerRef}
+            className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            <GridBackground mousePos={mousePos} />
+            <ParticleSystem width={dimensions.width} height={dimensions.height} phase={phase} />
+            <LaserScan phase={phase} />
+
+            {/* LOGO: Absolutely centered */}
+            <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+                <HexagonLogo phase={phase} mousePos={mousePos} />
             </div>
+
+            {/* TEXT: Positioned absolutely below */}
+            <div className="absolute z-30 w-full flex flex-col items-center pointer-events-none top-[60%]">
+                <AnimatePresence>
+                    {phase >= 2 && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="mt-8 text-sm md:text-base"
+                        >
+                            <TypewriterText text="INITIALIZING SYSTEM" />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            {phase === 5 && (
+                <motion.div
+                    className="absolute inset-0 bg-transparent z-[100]"
+                    style={{
+                        maskImage: 'radial-gradient(circle at center, transparent 0%, black 0%)',
+                        WebkitMaskImage: 'radial-gradient(circle at center, transparent 0%, black 0%)'
+                    }}
+                    animate={{
+                        maskImage: 'radial-gradient(circle at center, transparent 200%, black 200%)',
+                        WebkitMaskImage: 'radial-gradient(circle at center, transparent 200%, black 200%)'
+                    }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }}
+                />
+            )}
         </motion.div>
     );
 };
